@@ -26,14 +26,23 @@ public class SegundaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_segunda);
 
         Intent intent = getIntent();
-        Bundle bundle = intent.getBundleExtra("stringBundle");
-        String umaString = bundle.getString("umaString");
-        String mensagem = intent.getStringExtra("mensagem");
-        Boolean umBoolean = intent.getBooleanExtra("umBoolean", false);
-        int umInteiro = intent.getIntExtra("umInteiro", 0);
         TextView textEdit1 = (TextView) findViewById(R.id.textView1);
-        textEdit1.setText("Esta é a SegundaActivity: " + umaString + " "
-                + mensagem + " " + umBoolean + " " + umInteiro);
+        if (intent != null) {
+            String action = intent.getAction();
+            String type = intent.getType();
+            if (Intent.ACTION_SEND.equals(action) && "text/plain".equals(type)) {
+                textEdit1.setText(intent.getStringExtra(Intent.EXTRA_TEXT));
+            } else {
+                Bundle bundle = intent.getBundleExtra("stringBundle");
+                String umaString = bundle.getString("umaString");
+                String mensagem = intent.getStringExtra("mensagem");
+                Boolean umBoolean = intent.getBooleanExtra("umBoolean", false);
+                int umInteiro = intent.getIntExtra("umInteiro", 0);
+
+                textEdit1.setText("Esta é a SegundaActivity: " + umaString + " "
+                        + mensagem + " " + umBoolean + " " + umInteiro);
+            }
+        }
         Button bChamar = (Button) findViewById(R.id.button2);
         bChamar.setOnClickListener(new View.OnClickListener() {
             @Override
